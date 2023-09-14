@@ -3,10 +3,11 @@ import { Label } from './ui/label'
 import { Separator } from './ui/separator'
 import { Textarea } from './ui/textarea'
 import { Button } from './ui/button'
-import { ChangeEvent, useMemo, useState } from 'react'
+import { ChangeEvent, FormEvent, useMemo, useRef, useState } from 'react'
 
 export function VideoInputForm() {
   const [videoFile, setVideoFile] = useState<File | null>(null)
+  const videoTagsInputRef = useRef<HTMLTextAreaElement>(null)
 
   function handleVideoFileSelected(event: ChangeEvent<HTMLInputElement>) {
     const { files } = event.currentTarget
@@ -20,8 +21,17 @@ export function VideoInputForm() {
     return URL.createObjectURL(videoFile)
   }, [videoFile])
 
+  function handleVideoUpload(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const videoTags = videoTagsInputRef.current?.value
+
+    if (!videoFile) return
+
+    // convert video in audio
+  }
+
   return (
-    <form className="space-y-6">
+    <form onSubmit={handleVideoUpload} className="space-y-6">
       <Label
         htmlFor="video"
         className="relative border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5"
@@ -48,10 +58,9 @@ export function VideoInputForm() {
       />
       <Separator />
       <div className="space-y-2">
-        <Label htmlFor="transcription-prompt">
-          Transcription&apos;s prompt
-        </Label>
+        <Label htmlFor="transcription-prompt">Video tags</Label>
         <Textarea
+          ref={videoTagsInputRef}
           placeholder="Insert tags mentioned on selected video separated by comma (,)"
           id="transcription-prompt"
           className="h-20 leading-relaxed"
