@@ -1,20 +1,34 @@
 import { Button } from '@/components/ui/button'
-import { Github, Wand2 } from 'lucide-react'
+import { Github } from 'lucide-react'
 import { Separator } from './components/ui/separator'
 import { Textarea } from './components/ui/textarea'
-import { Label } from './components/ui/label'
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import { Slider } from './components/ui/slider'
 import { VideoInputForm } from './components/video-input-form'
+import { AIInputForm } from './components/ai-input-form'
+import { useState } from 'react'
+import { INITIAL_AI_TEMPERATURE } from './components/ai-temperature-slide'
+import { UserAlert } from './components/user-alert'
+
+let userAlertTitle: string
+let userAlertMessage: string
+let userAlertActionText: string
 
 export function App() {
+  const [openUserAlert, setOpenUserAlert] = useState<boolean>(false)
+  const [videoId, setVideoId] = useState<string | null>(null)
+
+  let temperature: number = INITIAL_AI_TEMPERATURE
+  let template: string = ''
+
+  function handleFormSubmit(newTemplate: string, newTemperature: number) {
+    temperature = newTemperature
+    template = newTemplate
+    console.log(template, temperature, videoId)
+  }
+
+  function handleUserAlertClose() {
+    setOpenUserAlert(false)
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="px-6 py-3 flex items-center justify-between border-b">
@@ -52,59 +66,19 @@ export function App() {
           </p>
         </div>
         <aside className="w-80 space-y-8">
-          <VideoInputForm />
+          <VideoInputForm onVideoUploaded={setVideoId} />
 
           <Separator />
 
-          <form className="space-y-6">
-            <div className="space-y-2">
-              <Label>Prompt</Label>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a prompt" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="title-result">YouTube title</SelectItem>
-                  <SelectItem value="description-result">
-                    YouTube description
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          <AIInputForm onFormSubmit={handleFormSubmit} />
 
-            <div className="space-y-2">
-              <Label>Model</Label>
-              <Select defaultValue="gpt35" disabled>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="gpt35">GPT 3.5-turbo 16k</SelectItem>
-                </SelectContent>
-              </Select>
-              <p className="text-xs text-muted-foreground italic">
-                New options available soon!
-              </p>
-            </div>
-
-            <Separator />
-
-            <div className="space-y-4">
-              <Label>Temperature</Label>
-              <Slider min={0} max={1} step={0.1} />
-              <p className="text-xs text-muted-foreground italic leading-relaxed">
-                When values are high, the results tend to be more imaginative,
-                although potential errors may occur.
-              </p>
-            </div>
-
-            <Separator />
-
-            <Button type="submit" className="w-full">
-              Generate
-              <Wand2 className="w-4 h-4 ml-2" />
-            </Button>
-          </form>
+          <UserAlert
+            onClose={handleUserAlertClose}
+            openTrigger={openUserAlert}
+            title={userAlertTitle}
+            message={userAlertMessage}
+            actionText={userAlertActionText}
+          />
         </aside>
       </main>
     </div>
