@@ -98,10 +98,12 @@ export function App() {
           </span>
 
           <Separator orientation="vertical" className="h-6" />
-          <Button variant="outline">
-            <Github className="w-4 h-4 mr-2" />
-            GitHub
-          </Button>
+          <a href="http://github.com/dwtoledo" target="_blank" rel="noreferrer">
+            <Button variant="outline">
+              <Github className="w-4 h-4 mr-2" />
+              GitHub
+            </Button>
+          </a>
         </div>
       </header>
       <main className="flex-1 p-6 flex gap-6">
