@@ -1,7 +1,7 @@
 {
-  "name": "upload-ai-web",
+  "name": "ai-video-tools-web",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

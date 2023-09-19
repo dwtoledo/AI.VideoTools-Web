@@ -183,11 +183,11 @@ export function VideoInputForm(props: VideoInputFormProps) {
         />
         <Separator />
         <div className="space-y-2">
-          <Label htmlFor="transcription-prompt">Video tags</Label>
+          <Label htmlFor="transcription-prompt">Video keywords</Label>
           <Textarea
             disabled={status !== 'waiting'}
             ref={videoTagsInputRef}
-            placeholder="Insert tags mentioned on selected video separated by comma (,)"
+            placeholder="Insert keywords mentioned on selected video separated by comma (,)"
             id="transcription-prompt"
             className="h-20 leading-relaxed"
           />

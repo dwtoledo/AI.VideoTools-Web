@@ -7,23 +7,23 @@ import { AITemperatureSlide } from './ai-temperature-slide'
 import { FormEvent } from 'react'
 
 interface AIInputFormProps {
-  onFormSubmit: (template: string, temperature: number) => void
+  onFormSubmit: (event: FormEvent<HTMLFormElement>) => void
+  onAIPromptSelected: (template: string) => void
+  onAITemperatureChange: (temperature: number) => void
+  isLoading: boolean
 }
-
-let aiTemplateSelected: string
-let aiTemperatureValue: number
 
 export function AIInputForm(props: AIInputFormProps) {
   function handleAIPromptSelected(prompt: Prompt) {
-    aiTemplateSelected = prompt.template
+    props.onAIPromptSelected(prompt.template)
   }
-  function handleAITemperatureSlider(value: number) {
-    aiTemperatureValue = value
+
+  function handleAITemperatureSlider(temperature: number) {
+    props.onAITemperatureChange(temperature)
   }
 
   function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    props.onFormSubmit(aiTemplateSelected, aiTemperatureValue)
+    props.onFormSubmit(event)
   }
 
   return (
@@ -39,7 +39,7 @@ export function AIInputForm(props: AIInputFormProps) {
         <AITemperatureSlide onAITemperatureSlider={handleAITemperatureSlider} />
       </div>
       <Separator />
-      <Button type="submit" className="w-full">
+      <Button disabled={props.isLoading} type="submit" className="w-full">
         Generate
         <Wand2 className="w-4 h-4 ml-2" />
       </Button>

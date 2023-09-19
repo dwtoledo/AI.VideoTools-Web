@@ -16,7 +16,7 @@ export function AIModelSelect() {
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="gpt35">GPT 3.5-turbo 16k</SelectItem>
+          <SelectItem value="gpt35">GPT 3.5-turbo</SelectItem>
         </SelectContent>
       </Select>
       <p className="text-xs text-muted-foreground italic">

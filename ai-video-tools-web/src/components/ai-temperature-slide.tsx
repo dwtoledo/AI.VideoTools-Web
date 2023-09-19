@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Label } from './ui/label'
 import { Slider } from './ui/slider'
 
@@ -11,8 +11,6 @@ interface AITemperatureSlideProps {
 export function AITemperatureSlide(props: AITemperatureSlideProps) {
   const [temperature, setTemperature] = useState(INITIAL_AI_TEMPERATURE)
 
-  useEffect(() => props.onAITemperatureSlider(INITIAL_AI_TEMPERATURE), [props])
-
   function handleAITemperatureSlider(values: Array<number>) {
     setTemperature(values[0])
     props.onAITemperatureSlider(values[0])
@@ -20,7 +18,7 @@ export function AITemperatureSlide(props: AITemperatureSlideProps) {
 
   return (
     <>
-      <Label>Temperature</Label>
+      <Label>AI Creativity</Label>
       <Slider
         min={0}
         max={1}
